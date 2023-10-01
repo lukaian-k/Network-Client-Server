@@ -80,7 +80,7 @@ class NetworkClientApp:
                 user_input = askstring("Pop-up", f"{command}:")
                 
                 if user_input:
-                    response = self.client.send(user_input)
+                    response = self.client.send(f'{command}|{user_input}')
                 else:
                     return
                 

@@ -67,17 +67,33 @@ class ClientHandler(threading.Thread):
             print(f"ADEUS: {self.client_socket}")
             self.client_socket.close()
             return
+        
 
-        with open('server/database/battle_rap_dictionary.json', 'r') as file:
-            info_battle_rap = json.load(file)
+        command, user_input = command.split('|')
 
-            info_battle_rap = {
-                key.upper(): value
-                for key, value in info_battle_rap.items()
-            }
+        if command == 'CONSULTA':
+            with open('server/database/battle_rap_dictionary.json', 'r') as file:
+                info_battle_rap = json.load(file)
 
-            if command in info_battle_rap:
-                return f'CONSULTA:\n\n{command}: {info_battle_rap[command]}'
+                info_battle_rap = {
+                    key.upper(): value
+                    for key, value in info_battle_rap.items()
+                }
+
+                if user_input in info_battle_rap:
+                    return f'CONSULTA:\n\n{user_input}: {info_battle_rap[user_input]}'
+                
+        elif command == 'ARQUIVO':
+            dir = "server/database"
+            files = os.listdir(dir)
+
+            for file in files:
+                if user_input in file:
+                    with open(f'{dir}/{file}', 'r') as value:
+                        value = value.read()
+                        return f'{file}:\n\n{value}'
+                    
+            return 'ARQUIVO_NAO_ENCONTRADO'
             
         return "COMANDO_DESCONHECIDO"
 
