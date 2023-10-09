@@ -2,7 +2,6 @@ import tkinter as tk
 import socket
 from tkinter.simpledialog import askstring
 
-# Constants
 SERVER_ADDRESS = ("127.0.0.1", 8080)
 
 
@@ -100,7 +99,12 @@ class Client:
     def __init__(self):
         self.server_address = SERVER_ADDRESS
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_socket.connect(self.server_address)
+
+        try:
+            self.client_socket.connect(self.server_address)
+        except ConnectionError as error:
+            print(f"Erro ao conectar ao servidor: {error}")
+            self.root.destroy()
 
     def send(self, command):
         try:
@@ -108,8 +112,15 @@ class Client:
             response = self.client_socket.recv(1024).decode()
             return response
 
+        except ConnectionError as error:
+            message = f"Erro de conexão: {error}"
+            print(message)
+            return message
+
         except Exception as error:
-            return f"Erro: {error}"
+            message = f"Erro desconhecido: {error}"
+            print(message)
+            return message
 
 
 if __name__ == "__main__":

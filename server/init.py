@@ -20,18 +20,22 @@ class Server:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.bind((self.host, self.port))
         server_socket.listen(5)
-        print(f"Server listening on port {self.port}")
+        print(f"Servidor escutando na porta {self.port}")
 
         try:
             while True:
                 client_socket, addr = server_socket.accept()
-                print(f"Connection received from {addr}")
+                print(f"Conexão recebida de {addr}")
 
                 client_handler = ClientHandlerThread(client_socket)
                 client_handler.start()
 
         except KeyboardInterrupt:
-            print("Server terminated.")
+            print("Servidor encerrado.")
+
+        except Exception as error:
+            print(f"Erro no servidor: {error}")
+
         finally:
             server_socket.close()
 
@@ -53,7 +57,8 @@ class ClientHandlerThread(threading.Thread):
                 self.client_socket.send(response.encode())
 
         except Exception as error:
-            print(f"Connection error: {error}")
+            print(f"Erro desconhecido: {error}")
+
         finally:
             self.client_socket.close()
 
@@ -70,7 +75,7 @@ class ClientHandlerThread(threading.Thread):
             return "LISTA_ARQUIVOS:\n\n" + "\n".join(files)
 
         elif command == "SAIR":
-            print(f"Goodbye: {self.client_socket}")
+            print(f"ADEUS: {self.client_socket}")
             self.client_socket.close()
             return
 
