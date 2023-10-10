@@ -8,7 +8,7 @@ SERVER_ADDRESS = ("127.0.0.1", 8080)
 class ClientApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Network Client")
+        self.root.title("rapENSINA")
         self.root.geometry("500x650")
         self.root.configure(bg="#fbfaff")
         self.create_gui()
@@ -27,11 +27,11 @@ class ClientApp:
             bg="#fbfaff",
             fg="#606060",
         )
-        header_label.pack(pady=10)
+        header_label.pack(pady=3)
 
     def create_buttons(self):
         buttons_frame = tk.Frame(self.root, bg="#fbfaff")
-        buttons_frame.pack(pady=20)
+        buttons_frame.pack(pady=3)
 
         button_properties = {
             "bg": "#6d8d8c",
@@ -65,7 +65,7 @@ class ClientApp:
             bg="#fbfaff",
             fg="#606060",
         )
-        response_label.pack(pady=10)
+        response_label.pack(pady=30)
         self.response_text = tk.Label(
             self.root, text="", wraplength=300, font=("Helvetica", 12), bg="#fbfaff"
         )
